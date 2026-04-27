@@ -7,10 +7,7 @@ def cd(path):
     """
     Context manager for cd the given path.
     """
-    cwd = os.getcwd()
-    os.chdir(path)
-    yield
-    os.chdir(cwd)
+    pass
 
 
 def is_super_path(path1, path2):
@@ -21,29 +18,17 @@ def is_super_path(path1, path2):
     For instance "/", "/opt" and "/opt/test" are all the super paths of "/opt/test",
     while "/opt/t" is the super path of "/opt/test".
     """
-    path1 = os.path.normpath(path1)
-    current_path2 = os.path.normpath(path2)
-    parent_path2 = os.path.dirname(current_path2)
-    if path1 == current_path2:
-        return True
-
-    while parent_path2 != current_path2:
-        if path1 == parent_path2:
-            return True
-        current_path2 = parent_path2
-        parent_path2 = os.path.dirname(parent_path2)
-
-    return False
+    pass
 
 
 def normjoin(path, *paths):
     """Join one or more path components intelligently and normalize it."""
-    return os.path.normpath(os.path.join(path, *paths))
+    pass
 
 
 def filename(path):
     """Return the filename without extension."""
-    return os.path.splitext(os.path.basename(path))[0]
+    pass
 
 
 def fileext(path):
@@ -51,4 +36,4 @@ def fileext(path):
     Return the file extension.
     If file has not extension, return empty string.
     """
-    return os.path.splitext(os.path.basename(path))[1]
+    pass

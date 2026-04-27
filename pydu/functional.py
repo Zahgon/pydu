@@ -9,6 +9,4 @@ def compose(*funcs):
 
     compose(f1, f2, f3)(*x) is same to f1(f2(f3(*x))).
     """
-    return reduce(
-        lambda f1, f2: (lambda *args, **kwargs: f2(f1(*args, **kwargs))),
-        reversed(funcs))
+    pass

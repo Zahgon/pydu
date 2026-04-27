@@ -11,28 +11,25 @@ class OrderedSet(object):
         self.dict = collections.OrderedDict.fromkeys(iterable or ())
 
     def add(self, item):
-        self.dict[item] = None
+        pass
 
     def remove(self, item):
-        del self.dict[item]
+        pass
 
     def discard(self, item):
-        try:
-            self.remove(item)
-        except KeyError:
-            pass
+        pass
 
     def __iter__(self):
-        return iter(self.dict)
+        pass
 
     def __contains__(self, item):
-        return item in self.dict
+        pass
 
     def __bool__(self):
-        return bool(self.dict)
+        pass
 
     def __nonzero__(self):
-        return bool(self.dict)
+        pass
 
     def __len__(self):
-        return len(self.dict)
+        pass

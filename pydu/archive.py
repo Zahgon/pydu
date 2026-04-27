@@ -44,8 +44,7 @@ def extract(path, dst='', ext=''):
     Unpack the tar or zip file at the specified path or file to the directory
     specified by to_path.
     """
-    with Archive(path, ext=ext) as archive:
-        archive.extract(dst)
+    pass
 
 
 class Archive(object):
@@ -67,42 +66,25 @@ class Archive(object):
         """
         Return the proper Archive implementation class, based on the file type.
         """
-        if isinstance(file, string_types):
-            filename = file
-        else:
-            try:
-                filename = file.name
-            except AttributeError:
-                raise UnrecognizedArchiveFormat(
-                    "File object not a recognized archive format.")
-        lookup_filename = filename + ext
-        base, tail_ext = os.path.splitext(lookup_filename.lower())
-        cls = extension_map.get(tail_ext)
-        if not cls:
-            base, ext = os.path.splitext(base)
-            cls = extension_map.get(ext)
-        if not cls:
-            raise UnrecognizedArchiveFormat(
-                "Path not a recognized archive format: %s" % filename)
-        return cls
+        pass
 
     def __enter__(self):
-        return self
+        pass
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.close()
+        pass
 
     def extract(self, dst=''):
-        self._archive.extract(dst)
+        pass
 
     def list(self):
-        self._archive.list()
+        pass
 
     def filenames(self):
-        return self._archive.filenames()
+        pass
 
     def close(self):
-        self._archive.close()
+        pass
 
 
 class BaseArchive(object):
@@ -116,35 +98,17 @@ class BaseArchive(object):
         won't be writable/executable without being readable), apply those
         permissions to the unarchived file.
         """
-        if mode & stat.S_IROTH:
-            os.chmod(filename, mode)
+        pass
 
     def split_leading_dir(self, path):
-        path = str(path)
-        path = path.lstrip('/').lstrip('\\')
-        if '/' in path and (('\\' in path and path.find('/') < path.find(
-                '\\')) or '\\' not in path):
-            return path.split('/', 1)
-        elif '\\' in path:
-            return path.split('\\', 1)
-        else:
-            return path, ''
+        pass
 
     def has_leading_dir(self, paths):
         """
         Returns true if all the paths have the same leading path name
         (i.e., everything is in one subdirectory in an archive)
         """
-        common_prefix = None
-        for path in paths:
-            prefix, rest = self.split_leading_dir(path)
-            if not prefix:
-                return False
-            elif common_prefix is None:
-                common_prefix = prefix
-            elif prefix != common_prefix:
-                return False
-        return True
+        pass
 
     def extract(self, dst):
         raise NotImplementedError(
@@ -161,59 +125,26 @@ class BaseArchive(object):
         raise NotImplementedError()
 
     def __del__(self):
-        if hasattr(self, "_archive"):
-            self._archive.close()
+        pass
 
 
 class TarArchive(BaseArchive):
 
     def __init__(self, file):
         # tarfile's open uses different parameters for file path vs. file obj.
-        if isinstance(file, string_types):
-            self._archive = tarfile.open(name=file)
-        else:
-            self._archive = tarfile.open(fileobj=file)
+        pass
 
     def extract(self, dst):
-        members = self._archive.getmembers()
-        leading = self.has_leading_dir(x.name for x in members)
-        for member in members:
-            name = member.name
-            if leading:
-                name = self.split_leading_dir(name)[1]
-            filename = os.path.join(dst, name)
-            if member.isdir():
-                if filename and not os.path.exists(filename):
-                    os.makedirs(filename)
-            else:
-                try:
-                    extracted = self._archive.extractfile(member)
-                except (KeyError, AttributeError) as exc:
-                    # Some corrupt tar files seem to produce this
-                    # (specifically bad symlinks)
-                    logger.error("In the tar file %s the member %s is invalid: %s",
-                                 name, member.name, exc)
-                else:
-                    dirname = os.path.dirname(filename)
-                    if dirname and not os.path.exists(dirname):
-                        os.makedirs(dirname)
-                    with open(filename, 'wb') as outfile:
-                        shutil.copyfileobj(extracted, outfile)
-                        self._copy_permissions(member.mode, filename)
-                finally:
-                    try:
-                        extracted.close()
-                    except NameError:
-                        pass
+        pass
 
     def list(self):
-        self._archive.list()
+        pass
 
     def filenames(self):
-        return self._archive.getnames()
+        pass
 
     def close(self):
-        self._archive.close()
+        pass
 
 
 class ZipArchive(BaseArchive):
@@ -223,36 +154,16 @@ class ZipArchive(BaseArchive):
         self._archive = zipfile.ZipFile(file)
 
     def extract(self, dst):
-        namelist = self._archive.namelist()
-        leading = self.has_leading_dir(namelist)
-        for name in namelist:
-            data = self._archive.read(name)
-            info = self._archive.getinfo(name)
-            if leading:
-                name = self.split_leading_dir(name)[1]
-            filename = os.path.join(dst, name)
-            dirname = os.path.dirname(filename)
-            if dirname and not os.path.exists(dirname):
-                os.makedirs(dirname)
-            if filename.endswith(('/', '\\')):
-                # A directory
-                if not os.path.exists(filename):
-                    os.makedirs(filename)
-            else:
-                with open(filename, 'wb') as outfile:
-                    outfile.write(data)
-                # Convert ZipInfo.external_attr to mode
-                mode = info.external_attr >> 16
-                self._copy_permissions(mode, filename)
+        pass
 
     def list(self):
-        self._archive.printdir()
+        pass
 
     def filenames(self):
-        return self._archive.namelist()
+        pass
 
     def close(self):
-        self._archive.close()
+        pass
 
 
 extension_map = {

@@ -17,13 +17,7 @@ def safeunicode(obj, encoding='utf-8'):
         >>> safeunicode('\xe4\xb8\xad\xe6\x96\x87')
         u'中文'
     """
-    t = type(obj)
-    if t is text_type:
-        return obj
-    elif t is bytes:
-        return obj.decode(encoding)
-    else:
-        return text_type(obj)
+    pass
 
 
 def safeencode(obj, encoding='utf-8'):
@@ -35,13 +29,7 @@ def safeencode(obj, encoding='utf-8'):
         >>> safestr(2)
         '2'
     """
-    t = type(obj)
-    if t is text_type:
-        return obj.encode(encoding)
-    elif t is bytes:
-        return obj
-    else:
-        return text_type(obj).encode(encoding)
+    pass
 
 
 iters = [list, tuple, set, frozenset]
@@ -54,20 +42,7 @@ of lists, tuples, sets, and Sets are available in this version of Python.
 
 
 def _strips(direction, text, remove):
-    if isinstance(remove, iters):
-        for subr in remove:
-            text = _strips(direction, text, subr)
-        return text
-
-    if direction == 'l':
-        if text.startswith(remove):
-            return text[len(remove):]
-    elif direction == 'r':
-        if text.endswith(remove):
-            return text[:-len(remove) or None]
-    else:
-        raise ValueError('Direction needs to be r or l.')
-    return text
+    pass
 
 
 def rstrips(text, remove):
@@ -76,7 +51,7 @@ def rstrips(text, remove):
         >>> rstrips('foobar', 'bar')
         'foo'
     """
-    return _strips('r', text, remove)
+    pass
 
 
 def lstrips(text, remove):
@@ -91,7 +66,7 @@ def lstrips(text, remove):
         'BARBAZ'
 
     """
-    return _strips('l', text, remove)
+    pass
 
 
 def strips(text, remove):
@@ -100,7 +75,7 @@ def strips(text, remove):
         >>> strips('foobarfoo', 'foo')
         'bar'
     """
-    return rstrips(lstrips(text, remove), remove)
+    pass
 
 
 def common_prefix(l):
@@ -109,14 +84,7 @@ def common_prefix(l):
         >>> common_prefix(['abcd', 'abc1'])
         'abc'
     """
-    commons = []
-    for i in range(min(len(s) for s in l)):
-        common = l[0][i]
-        for c in l[1:]:
-            if c[i] != common:
-                return ''.join(commons)
-        commons.append(common)
-    return ''.join(commons)
+    pass
 
 
 def common_suffix(l):
@@ -125,14 +93,7 @@ def common_suffix(l):
         >>> common_suffix(['dabc', '1abc'])
         'abc'
     """
-    commons = []
-    for i in range(min(len(s) for s in l)):
-        common = l[0][-i-1]
-        for c in l[1:]:
-            if c[-i-1] != common:
-                return ''.join(reversed(commons))
-        commons.append(common)
-    return ''.join(reversed(commons))
+    pass
 
 
 def sort(s, reverse=False):
@@ -140,4 +101,4 @@ def sort(s, reverse=False):
     Sort given string by ascending order.
     If reverse is True, sorting given string by descending order.
     """
-    return ''.join(sorted(s, reverse=reverse))
+    pass

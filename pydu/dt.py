@@ -13,18 +13,13 @@ class timer(object):
         self.print_func = print_func
 
     def __enter__(self):
-        self.start = time.time()
+        pass
 
     def __exit__(self, *_):
-        self.elapsed = time.time() - self.start
-        if self.print_func:
-            self.print_func(self.__str__())
+        pass
 
     def __call__(self, fun):
-        def wrapper(*args, **kwargs):
-            with self:
-                return fun(*args, **kwargs)
-        return wrapper
+        pass
 
     def __str__(self):
-        return 'Spent time: {}s'.format(self.elapsed)
+        pass

@@ -33,22 +33,16 @@ class AttrDict(dict):
     """
 
     def __getattr__(self, key):
-        try:
-            return self[key]
-        except KeyError as k:
-            raise AttributeError(k)
+        pass
 
     def __setattr__(self, key, value):
-        self[key] = value
+        pass
 
     def __delattr__(self, key):
-        try:
-            del self[key]
-        except KeyError as k:
-            raise AttributeError(k)
+        pass
 
     def __repr__(self):
-        return '<AttrDict ' + dict.__repr__(self) + '>'
+        pass
 
 
 class CaseInsensitiveDict(MutableMapping):
@@ -75,50 +69,38 @@ class CaseInsensitiveDict(MutableMapping):
     """
 
     def __init__(self, data=None, **kwargs):
-        self._store = {}
-        if data is None:
-            data = {}
-        self.update(data, **kwargs)
+        pass
 
     def __setitem__(self, key, value):
         # Use the lowercased key for lookups, but store the actual
         # key alongside the value.
-        self._store[key.lower()] = (key, value)
+        pass
 
     def __getitem__(self, key):
-        return self._store[key.lower()][1]
+        pass
 
     def __delitem__(self, key):
-        del self._store[key.lower()]
+        pass
 
     def __iter__(self):
-        return (casedkey for casedkey, mappedvalue in self._store.values())
+        pass
 
     def __len__(self):
-        return len(self._store)
+        pass
 
     def lower_items(self):
         """Like iteritems(), but with all lowercase keys."""
-        return (
-            (lowerkey, keyval[1])
-            for (lowerkey, keyval)
-            in self._store.items()
-        )
+        pass
 
     def __eq__(self, other):
-        if isinstance(other, Mapping):
-            other = CaseInsensitiveDict(other)
-        else:
-            return NotImplemented
-        # Compare insensitively
-        return dict(self.lower_items()) == dict(other.lower_items())
+        pass
 
     # Copy is required
     def copy(self):
-        return CaseInsensitiveDict(self._store.values())
+        pass
 
     def __repr__(self):
-        return '%s(%r)' % (self.__class__.__name__, dict(self.items()))
+        pass
 
 
 class LookupDict(dict):
@@ -136,7 +118,7 @@ class LookupDict(dict):
 
     def __getitem__(self, key):
         # We allow fall-through here, so values default to None
-        return self.get(key, None)
+        pass
 
 
 # https://stackoverflow.com/questions/6190331/can-i-do-an-ordered-default-dict-in-python
@@ -154,63 +136,33 @@ class OrderedDefaultDict(collections.OrderedDict):
     """
 
     def __init__(self, default_factory=None, *args, **kwds):
-        if (default_factory is not None and
-                not isinstance(default_factory, Callable)):
-            raise TypeError('First argument must be callable')
-        super(OrderedDefaultDict, self).__init__(*args, **kwds)
-        self.default_factory = default_factory
+        pass
 
     def __getitem__(self, key):
-        try:
-            return super(OrderedDefaultDict, self).__getitem__(key)
-        except KeyError:
-            return self.__missing__(key)
+        pass
 
     def __missing__(self, key):
-        if self.default_factory is None:
-            raise KeyError(key)
-        self[key] = value = self.default_factory()
-        return value
+        pass
 
     def __reduce__(self):
-        if self.default_factory is None:
-            args = tuple()
-        else:
-            args = self.default_factory,
-        return type(self), args, None, None, self.items()
+        pass
 
     def copy(self):
-        return self.__copy__()
+        pass
 
     def __copy__(self):
-        return self.__class__(self.default_factory, self)
+        pass
 
     if PY2:
         def __deepcopy__(self, memo):
-            import copy
-            return self.__class__(self.default_factory, copy.deepcopy(self.items()))
+            pass
     else:
         def __deepcopy__(self, memo):
-            import copy
-            return self.__class__(self.default_factory, copy.deepcopy(iter(self.items())))
+            pass
 
     def __repr__(self):
-        return 'OrderedDefaultDict({default_factory}, {repr})'.format(
-            default_factory=self.default_factory,
-            repr=super(OrderedDefaultDict, self).__repr__()
-        )
+        pass
 
 
 def attrify(obj):
-    if isinstance(obj, list):
-        for i, v in enumerate(obj):
-            obj[i] = attrify(v)
-        return obj
-    elif isinstance(obj, dict):
-        attrd = AttrDict()
-        for key, value in obj.items():
-            value = attrify(value)
-            setattr(attrd, key, value)
-        return attrd
-    else:
-        return obj
+    pass
